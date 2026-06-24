@@ -1,0 +1,6 @@
+{
+  "name": "Production RAG System",
+  "image": "mcr.microsoft.com/devcontainers/python:3.11",
+  "postCreateCommand": "pip install -r requirements.txt",
+  "rememberEnvironmentVariables": true
+}
