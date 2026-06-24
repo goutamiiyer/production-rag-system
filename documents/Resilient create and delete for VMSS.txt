@@ -1,0 +1,144 @@
+Resilient create and delete for Virtual Machine Scale Sets
+
+Summarize this article for me
+Resilient create and delete enables your Virtual Machine Scale Sets to automatically recover from VM provisioning and deletion failures without manual intervention. The feature retries failed Virtual Machine (VM) create and delete operations on your behalf. Resilient create increases the overall success rate of VM provisioning by retrying through provisioning timeout errors. Resilient delete ensures VMs are properly cleaned up by automatically retrying deletions that fail due to transient platform issues.
+
+Resilient create
+Resilient create automatically retries VM provisioning timeout failures during scale set creation or scale-out operations.
+
+It exclusively addresses:
+
+OSProvisioningTimedOut
+VMStartTimedOut
+When enabled, Resilient create automatically retries provisioning until the operation succeeds or reaches the maximum retry duration. VMs that can't be provisioned after all retry attempts remain in a failed state for investigation.
+
+Note: This feature deletes the failed VM and launches a new one, so the original VM name and ID changes after each retry.
+
+Resilient delete
+Resilient delete automatically retries VM deletions that fail during scale set deletion or scale-in operations. It addresses all transient platform errors, such as InternalExecutionError, TransientFailure, or InternalOperationError. This automated cleanup ensures that VMs are properly removed even when temporary issues occur during the delete operation. To check the status of your VMs throughout the retries, see Get status for Resilient create or delete.
+
+Enable Resilient create and delete
+You can enable Resilient create and delete on a new or existing Virtual Machine Scale Set.
+
+Portal
+CLI
+PowerShell
+REST
+Enable Resilient create and delete on a new scale set on Azure portal:
+
+In the Azure portal search bar, search for and select Virtual Machine Scale Sets.
+Select Create on the Virtual Machine Scale Sets page.
+Go through the steps of creating your scale set, by making selection in the Basics, Spot, Disks, Networking, and Management tabs.
+On the Health tab, go to the Recovery section.
+Select checkboxes Resilient VM create and Resilient VM delete.
+Finish creating your Virtual Machine Scale Set.
+Enable Resilient create and delete on an existing scale set on Azure portal:
+
+Navigate to your Virtual Machine Scale Set in the Azure portal.
+Under Capabilities select Health and repair.
+Under Recovery, enable Resilient VM create and Resilient VM delete.
+Prerequisites
+Resilient create and delete is supported for Compute API version 2024-11-01 or higher.
+
+Get status of retries
+Because Resilient create and delete operations run automatically in the background, monitoring their progress helps you understand whether retries are still in progress or if a VM requires manual attention.
+
+Resilient create
+Your VM shows a state of Creating while the retries are in progress. In rare circumstances, if all retry attempts are exhausted without success, the VM moves to a Failed state.
+
+Resilient delete
+During retries, VMs alternate between a provisioning state of Deleting and Failed as each attempt is made. To determine whether Resilient delete is still actively retrying or has exhausted all attempts, retrieve the ResilientVMDeletionStatus property for your VM.
+
+The following return values of ResilientVMDeletionStatus indicate the progress of Resilient delete.
+
+ResilientVMDeletionStatus	State of delete
+In Progress	Resilient delete is actively attempting to delete the VM.
+Failed	Resilient delete reached the maximum retry count without successfully deleting the VM.
+Enabled	Resilient VM deletion policy is enabled on your scale set.
+Disabled	Resilient VM deletion policy isn't enabled on your scale set.
+CLI
+PowerShell
+REST
+Use the Azure CLI to check the resiliency status of your VMs by retrieving the value returned by the ResilientVMDeletionStatus property. You can view the status for all VMs in a scale set or query a specific VM instance.
+
+View resiliency status for all VMs in a scale set:
+
+Azure CLI
+az vmss list-instances 
+--resiliencyView \
+--resource-group <myResourceGroup> \ 
+--subscription <mySubscriptionId> \ 
+--virtual-machine-scale-set-name <myScaleSet>
+View resiliency status for a specific VM:
+
+Azure CLI
+az vmss get-resiliency-view
+--resource-group <myResourceGroup> \ 
+--name <myScaleSet> \
+--instance <instance-name-or-id>
+Note: Use instance name for Flexible orchestration mode and instance ID for Uniform orchestration mode.
+
+FAQ
+Can I disable Resilient create or delete after enabling it?
+Yes, you can disable Resilient create or delete at any time by updating the resiliency policy on your scale set. However, any in-progress retries are completed before the policy change takes effect.
+
+Can I configure the retry count or timeout values?
+No, the retry behavior is predefined and can't be customized.
+
+Why is my VM stuck in 'Creating' state for a long time?
+Resilient create can take up to 30 minutes to complete all retry attempts. If your VM remains in 'Creating' state, Resilient create is still attempting to provision it. After 30 minutes, if unsuccessful, the VM will move to a 'Failed' state.
+
+Why does my VM show a 'Failed' state even though Resilient delete is enabled?
+When a delete attempt fails, the VM temporarily returns to a 'Failed' state before the next retry begins. This behavior is expected. Resilient delete makes up to five retry attempts, so you'll see the VM alternate between 'Deleting' and 'Failed' states during this process. To check if Resilient delete is still actively retrying, see Get status for Resilient create or delete.
+
+Does Resilient create work when I attach a new virtual machine to my scale set?
+No, Resilient create operates during a scale-out of a scale set or when you create a new scale set.
+
+Is the provisioning of my virtual machine accelerated with Resilient create?
+No, Resilient create improves the odds of provisioning the virtual machine, but doesn't improve the speed of the provisioning itself.
+
+Next steps
+Once your virtual machine is successfully created, learn how to configure automatic instance repairs on your Virtual Machine Scale Sets.
+
+Additional resources
+Documentation
+
+Automatic instance repairs with Azure Virtual Machine Scale Sets - Azure Virtual Machine Scale Sets
+
+Learn how to configure automatic repairs policy for VM instances in a scale set
+
+Design Considerations for Azure Virtual Machine Scale Sets - Azure Virtual Machine Scale Sets
+
+Learn about the design considerations for your Azure Virtual Machine Scale Sets. Compare scale sets features with VM features.
+
+Azure Virtual Machine Scale Set instances aren't repaired - Azure
+
+Provides solutions for an issue where Azure Virtual Machine Scale Set instances aren't repaired even when the automatic repairs policy is enabled.
+
+Show 5 more
+Training
+
+Module
+
+Implement scale and high availability with Windows Server VM - Training
+
+Learn how to implement scaling for virtual machine scale sets and load-balanced VMs. Also learn how to implement Azure Site Recovery.
+
+Certification
+
+Microsoft Certified: Azure Virtual Desktop Specialty - Certifications
+
+Plan, deliver, manage, and monitor virtual desktop experiences and remote apps on Microsoft Azure for any device.
+
+Last updated on 05/19/2026
+In this article
+Resilient create
+Resilient delete
+Enable Resilient create and delete
+Get status of retries
+FAQ
+Next steps
+Was this page helpful?
+
+
+
