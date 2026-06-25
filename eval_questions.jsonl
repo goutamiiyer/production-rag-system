@@ -1,0 +1,10 @@
+{"question": "What health probe protocols does Azure Load Balancer support?", "expected": "TCP, HTTP, and HTTPS", "source": "Azure Load Balancer health probes.txt"}
+{"question": "How many VMs can a scale set support with standard marketplace images?", "expected": "1000", "source": "Azure Virtual Machine Scale Sets.txt"}
+{"question": "What is the maximum retry duration for resilient create?", "expected": "30 minutes", "source": "Resilient create and delete for VMSS.txt"}
+{"question": "What is the timeout for automatic zone balance waiting for a new VM to be healthy?", "expected": "90 minutes", "source": "Automatic zone balance for VMSS.txt"}
+{"question": "What source IP address must be allowed for Azure Load Balancer health probes?", "expected": "168.63.129.16", "source": "Azure Load Balancer health probes.txt"}
+{"question": "What orchestration mode is required to migrate a regional VM to a zonal VM in a scale set?", "expected": "Flexible", "source": "Migrate regional VM to zonal.txt"}
+{"question": "What is the default health probe interval in the Azure portal?", "expected": "5 seconds", "source": "Azure Load Balancer health probes.txt"}
+{"question": "How many fault domains does max spreading use?", "expected": "platformFaultDomainCount 1", "source": "VMSS that uses Availability Zones.txt"}
+{"question": "What happens to established TCP flows when all backend instances probe down in Standard Load Balancer?", "expected": "continue", "source": "Azure Load Balancer health probes.txt"}
+{"question": "What API version is required for resilient create and delete?", "expected": "2024-11-01", "source": "Resilient create and delete for VMSS.txt"}
