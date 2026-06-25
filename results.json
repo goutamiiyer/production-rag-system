@@ -1,0 +1,119 @@
+[
+  {
+    "question": "What health probe protocols does Azure Load Balancer support?",
+    "expected": "TCP, HTTP, and HTTPS",
+    "answer": "Azure Load Balancer supports multiple health probe protocols, including:\n\n1. TCP\n2. HTTP\n3. HTTPS\n\nThe availability of a specific health probe protocol varies by Load Balancer SKU. The Standard Load Balancer supports all three protocols (TCP, HTTP, and HTTPS), while the Basic Load Balancer only supports TCP and HTTP.",
+    "sources": [
+      "Azure Load Balancer health probes.txt"
+    ],
+    "retrieval_similarity": 0.8207,
+    "eval_score": 1.0,
+    "eval_reason": "The actual answer provides the exact health probe protocols (TCP, HTTP, and HTTPS) mentioned in the expected information, although it also includes additional details and explanations."
+  },
+  {
+    "question": "How many VMs can a scale set support with standard marketplace images?",
+    "expected": "1000",
+    "answer": "Based on the provided information, a scale set built on a Marketplace image (also known as a platform image) or a user-defined custom image in an Azure Compute Gallery and configured to use Azure managed disks supports a capacity of up to 1,000 VMs.",
+    "sources": [
+      "Azure Virtual Machine Scale Sets.txt",
+      "Design Considerations For VMSS.txt"
+    ],
+    "retrieval_similarity": 0.7172,
+    "eval_score": 1.0,
+    "eval_reason": "The actual answer explicitly mentions the capacity of up to 1,000 VMs, directly matching the expected information provided."
+  },
+  {
+    "question": "What is the maximum retry duration for resilient create?",
+    "expected": "30 minutes",
+    "answer": "The maximum retry duration for resilient create is not explicitly mentioned in the provided context.",
+    "sources": [
+      "Resilient create and delete for VMSS.txt",
+      "Automatic instance repairs for VMSS.txt"
+    ],
+    "retrieval_similarity": 0.5938,
+    "eval_score": 0.0,
+    "eval_reason": "The actual answer explicitly states that it cannot find the information, which does not convey the same meaning as the expected information that the maximum retry duration is 30 minutes."
+  },
+  {
+    "question": "What is the timeout for automatic zone balance waiting for a new VM to be healthy?",
+    "expected": "90 minutes",
+    "answer": "Automatic zone balance waits up to 90 minutes for a newly created VM to report a healthy application signal.",
+    "sources": [
+      "Automatic zone balance for VMSS.txt",
+      "Enable Automatic Zone Balance on VMSS.txt"
+    ],
+    "retrieval_similarity": 0.689,
+    "eval_score": 1.0,
+    "eval_reason": "The actual answer directly quotes the expected timeout value of 90 minutes, explicitly stating it is the time the AI system waits for a new VM to report a healthy application signal."
+  },
+  {
+    "question": "What source IP address must be allowed for Azure Load Balancer health probes?",
+    "expected": "168.63.129.16",
+    "answer": "The source IP address that must be allowed for Azure Load Balancer health probes is 168.63.129.16 for IPv4 probes, and for IPv6 probes, it's a link-local address (fe80::1234:5678:9abc). Note that you can also use the AzureLoadBalancer service tag in your network security groups and local firewall policies to permit health probe traffic by default.",
+    "sources": [
+      "Azure Load Balancer health probes.txt"
+    ],
+    "retrieval_similarity": 0.6593,
+    "eval_score": 0.5,
+    "eval_reason": "The actual answer provides the correct expected information, but also contains additional information about IPv6 probes and AzureLoadBalancer service tag, making it partially correct."
+  },
+  {
+    "question": "What orchestration mode is required to migrate a regional VM to a zonal VM in a scale set?",
+    "expected": "Flexible",
+    "answer": "Flexible orchestration mode is required to migrate a regional VM to a zonal VM in a scale set.",
+    "sources": [
+      "Reliability in VMSS.txt",
+      "Migrate from regional to zonal VMSS.txt"
+    ],
+    "retrieval_similarity": 0.7302,
+    "eval_score": 1.0,
+    "eval_reason": "The actual answer directly confirms the expected information, providing the exact orchestration mode required for the migration."
+  },
+  {
+    "question": "What is the default health probe interval in the Azure portal?",
+    "expected": "5 seconds",
+    "answer": "The default health probe interval is 5 seconds as mentioned in the following sentence from the provided texts: \n\n\"Your application port and the probe port aren't required to be the same. In some scenarios, it can be desirable for the probe port to be different than\"\n\nThere is no reference to the above in a related article but that is incorrect because it is a separate paragraph.\n\nHere is the correct reference in relation to a health probe interval, from Azure Load Balancer health probes: \n\n\"The health probe attempts to check the configured health probe port every 5 seconds by default in the Azure portal, but can be explicitly set to another value.\"",
+    "sources": [
+      "Azure Load Balancer health probes.txt"
+    ],
+    "retrieval_similarity": 0.636,
+    "eval_score": 1.0,
+    "eval_reason": "The actual answer directly mentions the 5-second interval as the default health probe interval in the Azure portal, conveying the same meaning as the expected information."
+  },
+  {
+    "question": "How many fault domains does max spreading use?",
+    "expected": "platformFaultDomainCount 1",
+    "answer": "With max spreading, the Virtual Machine Scale Set (VMSS) spreads VMs across as many fault domains as possible within each zone. This could be across greater or fewer than five fault domains per zone. Therefore, the exact number of fault domains with max spreading is not fixed.",
+    "sources": [
+      "Reliability in VMSS.txt",
+      "VMSS that uses Availability Zones.txt",
+      "Zone balancing in VMSS.txt"
+    ],
+    "retrieval_similarity": 0.4416,
+    "eval_score": 0.5,
+    "eval_reason": "The actual answer partially conveys the same meaning as the expected information, but it also provides additional clarification that the exact number is not fixed and can vary."
+  },
+  {
+    "question": "What happens to established TCP flows when all backend instances probe down in Standard Load Balancer?",
+    "expected": "continue",
+    "answer": "All established TCP flows continue given that a backend pool has more than one backend instance.",
+    "sources": [
+      "Azure Load Balancer health probes.txt"
+    ],
+    "retrieval_similarity": 0.6301,
+    "eval_score": 1.0,
+    "eval_reason": "The actual answer directly states that established TCP flows continue, which aligns with the expected information of continuing established TCP flows."
+  },
+  {
+    "question": "What API version is required for resilient create and delete?",
+    "expected": "2024-11-01",
+    "answer": "Compute API version 2024-11-01 or higher is required for Resilient create and delete.",
+    "sources": [
+      "Resilient create and delete for VMSS.txt",
+      "Reliability in VMSS.txt"
+    ],
+    "retrieval_similarity": 0.4933,
+    "eval_score": 1.0,
+    "eval_reason": "The actual answer provides the exact API version required for resilient create and delete operation, which matches the expected information."
+  }
+]
