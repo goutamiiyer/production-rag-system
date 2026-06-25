@@ -11,62 +11,32 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.11'
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
 
-    - name: Cache sentence-transformers model
-      uses: actions/cache@v4
-      with:
-        path: ~/.cache/huggingface
-        key: huggingface-all-MiniLM-L6-v2
+      - name: Cache sentence-transformers model
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: huggingface-all-MiniLM-L6-v2
 
-    - name: Install dependencies
-      run: pip install -r requirements.txt
+      - name: Install dependencies
+        run: pip install -r requirements.txt
 
-    - name: Test chunker
-      run: python -c "
-from chunker import chunk_all_documents
-chunks = chunk_all_documents()
-assert len(chunks) == 58, f'Expected 58 chunks, got {len(chunks)}'
-assert chunks[0]['source'] is not None
-assert chunks[0]['text'] is not None
-print(f'Chunker OK: {len(chunks)} chunks')
-"
+      - name: Test chunker
+        run: python tests/test_chunker.py
 
-    - name: Test embedder and retriever
-      env:
-        GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-      run: python -c "
-from chunker import chunk_all_documents
-from embedder import embed_and_store, get_collection
-from retriever import retrieve
+      - name: Test embedder and retriever
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: python tests/test_retriever.py
 
-chunks = chunk_all_documents()
-embed_and_store(chunks)
-
-collection = get_collection()
-assert collection.count() == 58, f'Expected 58, got {collection.count()}'
-
-results = retrieve('How do health probes work?', top_k=3)
-assert len(results) == 3
-assert results[0]['similarity'] > 0.4
-print(f'Retriever OK: top similarity {results[0][\"similarity\"]}')
-"
-
-    - name: Test generator
-      env:
-        GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-      run: python -c "
-from generator import generate_answer
-result = generate_answer('What health probe protocols does Azure Load Balancer support?')
-assert result['answer'] is not None
-assert len(result['answer']) > 20
-assert result['top_similarity'] > 0.5
-print(f'Generator OK: answer length {len(result[\"answer\"])} chars')
-print(f'Sources: {result[\"sources\"]}')
-"
+      - name: Test generator
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: python tests/test_generator.py
