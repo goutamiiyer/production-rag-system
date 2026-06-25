@@ -76,9 +76,23 @@ cd production-rag-system
 pip install -r requirements.txt
 echo "GROQ_API_KEY=your_key_here" > .env
 
-python embedder.py      # ingest and embed documents
-python generator.py     # test question answering
-python rag_eval.py      # run evaluation suite
+# Step 1: ingest documents into vector store
+python rag_cli.py ingest
+
+# Step 2: ask a question
+python rag_cli.py query "How do health probes work in Azure Load Balancer?"
+
+# Step 3: run full evaluation suite
+python rag_cli.py eval
+
+# Optional: check vector store stats
+python rag_cli.py stats
+
+# Optional: retrieve more context for complex questions
+python rag_cli.py query "What is resilient delete?" --top-k 5
+
+# Optional: save eval results to file
+python rag_cli.py eval --output results.json
 ```
 
 ## Corpus
