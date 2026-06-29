@@ -29,7 +29,7 @@ def generate_answer(query: str, top_k: int = 3) -> dict:
     prompt = build_prompt(query, chunks)
 
     response = client.chat.completions.create(
-        model="llama-3.1-8b-instant",
+        model="openai/gpt-oss-20b",
         messages=[{"role": "user", "content": prompt}]
     )
 

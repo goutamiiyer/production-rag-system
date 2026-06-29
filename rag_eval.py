@@ -24,7 +24,7 @@ SCORE: 1.0 if yes, 0.5 if partially, 0.0 if no
 REASON: one sentence"""
 
     judgment = client.chat.completions.create(
-        model="llama-3.1-8b-instant",
+        model="openai/gpt-oss-20b",
         messages=[{"role": "user", "content": judge_prompt}]
     )
 
